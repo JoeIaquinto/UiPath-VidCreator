@@ -1,0 +1,166 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="YouTubeUploader" this:YouTubeUploader.Status="unlisted" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:gaao="clr-namespace:Google.Apis.Auth.OAuth2;assembly=Google.Apis.Auth" xmlns:gas="clr-namespace:Google.Apis.Services;assembly=Google.Apis" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:si="clr-namespace:System.IO;assembly=mscorlib" xmlns:st="clr-namespace:System.Threading;assembly=mscorlib" xmlns:stt="clr-namespace:System.Threading.Tasks;assembly=mscorlib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="VideoPath" Type="InArgument(x:String)" />
+    <x:Property Name="Title" Type="InArgument(x:String)" />
+    <x:Property Name="Description" Type="InArgument(x:String)" />
+    <x:Property Name="Tags" Type="InArgument(s:String[])" />
+    <x:Property Name="Status" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>558,1123</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>YouTubeUploader_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="25">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>Google.Apis.Auth.OAuth2</x:String>
+      <x:String>Google.Apis.Util.Store</x:String>
+      <x:String>System.Threading.Tasks</x:String>
+      <x:String>Google.Apis.Http</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="28">
+      <AssemblyReference>Google.Apis.Auth.OAuth2</AssemblyReference>
+      <AssemblyReference>Google.Apis.Services</AssemblyReference>
+      <AssemblyReference>Google.Apis.Upload</AssemblyReference>
+      <AssemblyReference>Google.Apis.Util.Store</AssemblyReference>
+      <AssemblyReference>Google.Apis</AssemblyReference>
+      <AssemblyReference>Google.Apis.YouTube.v3</AssemblyReference>
+      <AssemblyReference>Google.Apis.YouTube.v3.Data</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>Google.Apis.Auth</AssemblyReference>
+      <AssemblyReference>Google.Apis.Core</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="YouTubeUploader" sap:VirtualizedContainerService.HintSize="372,1050" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="Secret" />
+      <Variable x:TypeArguments="ui:GenericValue" Name="SecretLoc" />
+      <Variable x:TypeArguments="x:String" Name="ThisDir" />
+      <Variable x:TypeArguments="si:FileStream" Name="FS" />
+      <Variable x:TypeArguments="st:CancellationToken" Name="ct" />
+      <Variable x:TypeArguments="stt:Task(gaao:UserCredential)" Name="UserCredsTask" />
+      <Variable x:TypeArguments="ui:GenericValue" Name="scope" />
+      <Variable x:TypeArguments="gaao:UserCredential" Name="UserCreds" />
+      <Variable x:TypeArguments="gas:BaseClientService" Name="BaseClient" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:GetEnvironmentVariable DisplayName="Get Environment Variable" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="GetEnvironmentVariable_1" Variable="CurrentDirectory" VariableValue="[ThisDir]" />
+    <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="334,160" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+      <ui:MultipleAssign.AssignOperations>
+        <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="ui:GenericValue">[SecretLoc]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="ui:GenericValue">[ThisDir + "//client_secret_857046972168-p7p8am6284f2fhghh9pkrfe89brl1ca2.apps.googleusercontent.com.json"]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="si:FileStream">[FS]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="si:FileStream">[new System.IO.FileStream(SecretLoc.ToString, FileMode.Open, FileAccess.Read)]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="st:CancellationToken">[ct]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="st:CancellationToken">[New System.Threading.CancellationTokenSource().Token]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
+        </scg:List>
+      </ui:MultipleAssign.AssignOperations>
+    </ui:MultipleAssign>
+    <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="stt:Task(gaao:UserCredential)">[UserCredsTask]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="stt:Task(gaao:UserCredential)">[Google.Apis.Auth.OAuth2.GoogleWebAuthorizationBroker.AuthorizeAsync(Google.Apis.Auth.OAuth2.GoogleClientSecrets.Load(FS).Secrets, {Google.Apis.YouTube.v3.YouTubeService.ScopeConstants.YoutubeUpload}, "user", ct)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="CredTask.Wait()" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="stt:Task(gaao:UserCredential)" x:Key="CredTask">[UserCredsTask]</InArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="gaao:UserCredential">[UserCreds]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="gaao:UserCredential">[UserCredsTask.Result]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <If Condition="[IsNothing(UserCreds)]" DisplayName="If Creds nothing" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="If_1">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <If.Then>
+        <Throw Exception="[new ArgumentException(&quot;Google auth failed&quot;)]" sap:VirtualizedContainerService.HintSize="216,22" sap2010:WorkflowViewState.IdRef="Throw_1" />
+      </If.Then>
+    </If>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim bc As Google.Apis.Services.BaseClientService.Initializer = New Google.Apis.Services.BaseClientService.Initializer()&#xD;&#xA;With bc&#xD;&#xA; .HttpClientInitializer = Credentials&#xD;&#xA; .ApplicationName = &quot;UiPathVideoCreator&quot;&#xD;&#xA;End With&#xD;&#xA;Dim yt As Google.Apis.YouTube.v3.YouTubeService = New Google.Apis.YouTube.v3.YouTubeService(bc)&#xD;&#xA;&#xD;&#xA;Dim vid As  Google.Apis.YouTube.v3.Data.Video  = New Google.Apis.YouTube.v3.Data.Video()&#xD;&#xA;vid.Snippet = New Google.Apis.YouTube.v3.Data.VideoSnippet()&#xD;&#xA;vid.Snippet.Title = Title&#xD;&#xA;vid.Snippet.Description = Description&#xD;&#xA;vid.Snippet.Tags = Tags&#xD;&#xA;vid.Snippet.CategoryId = &quot;28&quot;&#xD;&#xA;vid.Status = New Google.Apis.YouTube.v3.Data.VideoStatus()&#xD;&#xA;vid.Status.PrivacyStatus = Status&#xD;&#xA;Dim fs As FileStream = New FileStream(FilePath, FileMode.Open)&#xD;&#xA;Dim vidInsertReq As Google.Apis.YouTube.v3.VideosResource.InsertMediaUpload = yt.Videos.Insert(vid, &quot;snippet,status&quot;, fs, &quot;video/*&quot; )&#xD;&#xA;vidInsertReq.Upload()" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="FilePath">[VideoPath]</InArgument>
+        <InArgument x:TypeArguments="gaao:UserCredential" x:Key="Credentials">[UserCreds]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="Title">[Title]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="Description">[Description]</InArgument>
+        <InArgument x:TypeArguments="s:String[]" x:Key="Tags">[Tags]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="Status">[Status]</InArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+  </Sequence>
+</Activity>

@@ -3,7 +3,8 @@
   "description": "Agent Process Improvement",
   "main": "Main.xaml",
   "dependencies": {
-    "Google.GData.YouTube": "[2.2.0]",
+    "Google.Apis": "[1.40.3]",
+    "Google.Apis.YouTube.v3": "[1.40.3.1663]",
     "UiPath.Excel.Activities": "[2.6.2]",
     "UiPath.Mail.Activities": "[1.5.1]",
     "UiPath.System.Activities": "[19.7.0]",
