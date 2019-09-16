@@ -5,11 +5,12 @@
     <x:Property Name="Description" Type="InArgument(x:String)" />
     <x:Property Name="Tags" Type="InArgument(s:String[])" />
     <x:Property Name="Status" Type="InArgument(x:String)" />
+    <x:Property Name="SecretLoc" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>558,1123</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>546,1177</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>YouTubeUploader_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="25">
@@ -72,10 +73,9 @@
       <AssemblyReference>Google.Apis.Core</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="YouTubeUploader" sap:VirtualizedContainerService.HintSize="372,1050" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="YouTubeUploader" sap:VirtualizedContainerService.HintSize="526,1077" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="Secret" />
-      <Variable x:TypeArguments="ui:GenericValue" Name="SecretLoc" />
+      <Variable x:TypeArguments="x:String" Name="SecretLoc" />
       <Variable x:TypeArguments="x:String" Name="ThisDir" />
       <Variable x:TypeArguments="si:FileStream" Name="FS" />
       <Variable x:TypeArguments="st:CancellationToken" Name="ct" />
@@ -89,18 +89,9 @@
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:GetEnvironmentVariable DisplayName="Get Environment Variable" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="GetEnvironmentVariable_1" Variable="CurrentDirectory" VariableValue="[ThisDir]" />
-    <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="334,160" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+    <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="484,129" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
-          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
-            <ui:AssignOperation.To>
-              <OutArgument x:TypeArguments="ui:GenericValue">[SecretLoc]</OutArgument>
-            </ui:AssignOperation.To>
-            <ui:AssignOperation.Value>
-              <InArgument x:TypeArguments="ui:GenericValue">[ThisDir + "//client_secret_857046972168-p7p8am6284f2fhghh9pkrfe89brl1ca2.apps.googleusercontent.com.json"]</InArgument>
-            </ui:AssignOperation.Value>
-          </ui:AssignOperation>
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
             <ui:AssignOperation.To>
               <OutArgument x:TypeArguments="si:FileStream">[FS]</OutArgument>
@@ -120,7 +111,7 @@
         </scg:List>
       </ui:MultipleAssign.AssignOperations>
     </ui:MultipleAssign>
-    <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="stt:Task(gaao:UserCredential)">[UserCredsTask]</OutArgument>
       </Assign.To>
@@ -128,12 +119,12 @@
         <InArgument x:TypeArguments="stt:Task(gaao:UserCredential)">[Google.Apis.Auth.OAuth2.GoogleWebAuthorizationBroker.AuthorizeAsync(Google.Apis.Auth.OAuth2.GoogleClientSecrets.Load(FS).Secrets, {Google.Apis.YouTube.v3.YouTubeService.ScopeConstants.YoutubeUpload}, "user", ct)]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="CredTask.Wait()" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="CredTask.Wait()" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="484,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
       <ui:InvokeCode.Arguments>
         <InArgument x:TypeArguments="stt:Task(gaao:UserCredential)" x:Key="CredTask">[UserCredsTask]</InArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
-    <Assign sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+    <Assign sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="gaao:UserCredential">[UserCreds]</OutArgument>
       </Assign.To>
@@ -141,18 +132,18 @@
         <InArgument x:TypeArguments="gaao:UserCredential">[UserCredsTask.Result]</InArgument>
       </Assign.Value>
     </Assign>
-    <If Condition="[IsNothing(UserCreds)]" DisplayName="If Creds nothing" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="If_1">
+    <If Condition="[IsNothing(UserCreds)]" DisplayName="If Creds nothing" sap:VirtualizedContainerService.HintSize="484,208" sap2010:WorkflowViewState.IdRef="If_1">
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <If.Then>
-        <Throw Exception="[new ArgumentException(&quot;Google auth failed&quot;)]" sap:VirtualizedContainerService.HintSize="216,22" sap2010:WorkflowViewState.IdRef="Throw_1" />
+        <Throw Exception="[new ArgumentException(&quot;Google auth failed&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_1" />
       </If.Then>
     </If>
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim bc As Google.Apis.Services.BaseClientService.Initializer = New Google.Apis.Services.BaseClientService.Initializer()&#xD;&#xA;With bc&#xD;&#xA; .HttpClientInitializer = Credentials&#xD;&#xA; .ApplicationName = &quot;UiPathVideoCreator&quot;&#xD;&#xA;End With&#xD;&#xA;Dim yt As Google.Apis.YouTube.v3.YouTubeService = New Google.Apis.YouTube.v3.YouTubeService(bc)&#xD;&#xA;&#xD;&#xA;Dim vid As  Google.Apis.YouTube.v3.Data.Video  = New Google.Apis.YouTube.v3.Data.Video()&#xD;&#xA;vid.Snippet = New Google.Apis.YouTube.v3.Data.VideoSnippet()&#xD;&#xA;vid.Snippet.Title = Title&#xD;&#xA;vid.Snippet.Description = Description&#xD;&#xA;vid.Snippet.Tags = Tags&#xD;&#xA;vid.Snippet.CategoryId = &quot;28&quot;&#xD;&#xA;vid.Status = New Google.Apis.YouTube.v3.Data.VideoStatus()&#xD;&#xA;vid.Status.PrivacyStatus = Status&#xD;&#xA;Dim fs As FileStream = New FileStream(FilePath, FileMode.Open)&#xD;&#xA;Dim vidInsertReq As Google.Apis.YouTube.v3.VideosResource.InsertMediaUpload = yt.Videos.Insert(vid, &quot;snippet,status&quot;, fs, &quot;video/*&quot; )&#xD;&#xA;vidInsertReq.Upload()" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim bc As Google.Apis.Services.BaseClientService.Initializer = New Google.Apis.Services.BaseClientService.Initializer()&#xA;With bc&#xA; .HttpClientInitializer = Credentials&#xA; .ApplicationName = &quot;UiPathVideoCreator&quot;&#xA;End With&#xA;Dim yt As Google.Apis.YouTube.v3.YouTubeService = New Google.Apis.YouTube.v3.YouTubeService(bc)&#xA;&#xA;Dim vid As  Google.Apis.YouTube.v3.Data.Video  = New Google.Apis.YouTube.v3.Data.Video()&#xA;vid.Snippet = New Google.Apis.YouTube.v3.Data.VideoSnippet()&#xA;vid.Snippet.Title = Title&#xA;vid.Snippet.Description = Description&#xA;vid.Snippet.Tags = Tags&#xA;vid.Snippet.CategoryId = &quot;28&quot;&#xA;vid.Status = New Google.Apis.YouTube.v3.Data.VideoStatus()&#xA;vid.Status.PrivacyStatus = Status&#xA;Dim fs As FileStream = New FileStream(FilePath, FileMode.Open)&#xA;Dim vidInsertReq As Google.Apis.YouTube.v3.VideosResource.InsertMediaUpload = yt.Videos.Insert(vid, &quot;snippet,status&quot;, fs, &quot;video/*&quot; )&#xA;vidInsertReq.Upload()" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="484,164" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
       <ui:InvokeCode.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="FilePath">[VideoPath]</InArgument>
         <InArgument x:TypeArguments="gaao:UserCredential" x:Key="Credentials">[UserCreds]</InArgument>
